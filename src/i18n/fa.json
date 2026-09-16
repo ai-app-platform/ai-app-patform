@@ -1,0 +1,83 @@
+{
+  "app": {
+    "name": "AI App Builder",
+    "description": "ساخت اپلیکیشن با هوش مصنوعی"
+  },
+  "nav": {
+    "dashboard": "داشبورد",
+    "projects": "پروژه‌ها",
+    "templates": "قالب‌ها",
+    "settings": "تنظیمات",
+    "profile": "پروفایل",
+    "logout": "خروج"
+  },
+  "common": {
+    "save": "ذخیره",
+    "cancel": "انصراف",
+    "delete": "حذف",
+    "edit": "ویرایش",
+    "create": "ایجاد",
+    "search": "جستجو",
+    "filter": "فیلتر",
+    "loading": "در حال بارگذاری...",
+    "noData": "داده‌ای یافت نشد",
+    "confirm": "تأیید",
+    "back": "بازگشت",
+    "next": "بعدی",
+    "previous": "قبلی",
+    "actions": "عملیات",
+    "status": "وضعیت",
+    "date": "تاریخ",
+    "name": "نام",
+    "description": "توضیحات",
+    "required": "الزامی",
+    "optional": "اختیاری"
+  },
+  "auth": {
+    "login": "ورود",
+    "register": "ثبت‌نام",
+    "email": "ایمیل",
+    "password": "رمز عبور",
+    "forgotPassword": "فراموشی رمز عبور",
+    "welcomeBack": "خوش آمدید",
+    "loginSubtitle": "برای ادامه وارد حساب خود شوید"
+  },
+  "dashboard": {
+    "title": "داشبورد",
+    "welcome": "خوش آمدید",
+    "totalProjects": "کل پروژه‌ها",
+    "activeProjects": "پروژه‌های فعال",
+    "recentActivity": "فعالیت‌های اخیر",
+    "quickActions": "دسترسی سریع",
+    "newProject": "پروژه جدید",
+    "viewAll": "مشاهده همه"
+  },
+  "projects": {
+    "title": "پروژه‌ها",
+    "createNew": "ایجاد پروژه جدید",
+    "empty": "هنوز پروژه‌ای ایجاد نشده است",
+    "emptyDescription": "اولین پروژه خود را با هوش مصنوعی بسازید",
+    "status": {
+      "draft": "پیش‌نویس",
+      "building": "در حال ساخت",
+      "completed": "تکمیل شده",
+      "failed": "ناموفق"
+    }
+  },
+  "settings": {
+    "title": "تنظیمات",
+    "theme": "تم",
+    "language": "زبان",
+    "darkMode": "حالت تاریک",
+    "lightMode": "حالت روشن",
+    "persian": "فارسی",
+    "english": "English"
+  },
+  "errors": {
+    "generic": "خطایی رخ داد. لطفاً دوباره تلاش کنید.",
+    "network": "خطا در اتصال به سرور",
+    "unauthorized": "دسترسی غیرمجاز",
+    "notFound": "صفحه مورد نظر یافت نشد",
+    "validation": "لطفاً اطلاعات را بررسی کنید"
+  }
+}
