@@ -76,4 +76,10 @@ mvn spring-boot:run
 | POST | /api/v1/projects | ایجاد پروژه |
 | GET | /api/v1/projects/{id} | جزئیات پروژه |
 | DELETE | /api/v1/projects/{id} | حذف پروژه |
+| GET | /api/v1/tools | لیست ابزارها |
+| POST | /api/v1/tools | ایجاد ابزار |
+| GET | /api/v1/tools/{id} | جزئیات ابزار |
+| POST | /api/v1/tools/{id}/activate | فعال‌سازی ابزار |
+| POST | /api/v1/tools/{id}/disable | غیرفعال‌سازی ابزار |
+| DELETE | /api/v1/tools/{id} | حذف ابزار |
 | GET | /api/v1/health | وضعیت سرویس |
