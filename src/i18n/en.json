@@ -1,0 +1,83 @@
+{
+  "app": {
+    "name": "AI App Builder",
+    "description": "Build applications with AI"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "projects": "Projects",
+    "templates": "Templates",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "filter": "Filter",
+    "loading": "Loading...",
+    "noData": "No data found",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "actions": "Actions",
+    "status": "Status",
+    "date": "Date",
+    "name": "Name",
+    "description": "Description",
+    "required": "Required",
+    "optional": "Optional"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot Password",
+    "welcomeBack": "Welcome Back",
+    "loginSubtitle": "Sign in to continue to your account"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome",
+    "totalProjects": "Total Projects",
+    "activeProjects": "Active Projects",
+    "recentActivity": "Recent Activity",
+    "quickActions": "Quick Actions",
+    "newProject": "New Project",
+    "viewAll": "View All"
+  },
+  "projects": {
+    "title": "Projects",
+    "createNew": "Create New Project",
+    "empty": "No projects created yet",
+    "emptyDescription": "Build your first project with AI",
+    "status": {
+      "draft": "Draft",
+      "building": "Building",
+      "completed": "Completed",
+      "failed": "Failed"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": "Theme",
+    "language": "Language",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "persian": "فارسی",
+    "english": "English"
+  },
+  "errors": {
+    "generic": "An error occurred. Please try again.",
+    "network": "Server connection error",
+    "unauthorized": "Unauthorized access",
+    "notFound": "Page not found",
+    "validation": "Please check your input"
+  }
+}
