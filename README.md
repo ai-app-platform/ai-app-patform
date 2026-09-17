@@ -82,4 +82,22 @@ mvn spring-boot:run
 | POST | /api/v1/tools/{id}/activate | فعال‌سازی ابزار |
 | POST | /api/v1/tools/{id}/disable | غیرفعال‌سازی ابزار |
 | DELETE | /api/v1/tools/{id} | حذف ابزار |
+| GET | /api/v1/agents | لیست ایجنت‌ها |
+| POST | /api/v1/agents | ایجاد ایجنت |
+| GET | /api/v1/agents/{id} | جزئیات ایجنت |
+| POST | /api/v1/agents/{id}/publish | انتشار ایجنت |
+| POST | /api/v1/agents/{id}/deprecate | منسوخ کردن ایجنت |
+| DELETE | /api/v1/agents/{id} | حذف ایجنت |
+| GET | /api/v1/projects/{id}/team | تیم ایجنت پروژه |
+| POST | /api/v1/projects/{id}/team/{agentId} | افزودن ایجنت به تیم |
+| POST | /api/v1/projects/{id}/team/{agentId}/enable | فعال‌سازی ایجنت در تیم |
+| POST | /api/v1/projects/{id}/team/{agentId}/disable | غیرفعال‌سازی ایجنت در تیم |
+| DELETE | /api/v1/projects/{id}/team/{agentId} | حذف ایجنت از تیم |
+| GET | /api/v1/projects/{id}/tasks | لیست وظایف پروژه |
+| POST | /api/v1/projects/{id}/tasks | ایجاد وظیفه |
+| GET | /api/v1/projects/{id}/tasks/{taskId} | جزئیات وظیفه |
+| POST | /api/v1/projects/{id}/tasks/{taskId}/start | شروع وظیفه |
+| POST | /api/v1/projects/{id}/tasks/{taskId}/complete | تکمیل وظیفه |
+| POST | /api/v1/projects/{id}/tasks/{taskId}/fail | شکست وظیفه |
+| DELETE | /api/v1/projects/{id}/tasks/{taskId} | حذف وظیفه |
 | GET | /api/v1/health | وضعیت سرویس |
