@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "roles")
-public class Role {
+@Table(name = "skills")
+public class Skill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -21,12 +21,15 @@ public class Role {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(length = 50)
+    @Column(name = "category", length = 50)
     private String category;
+
+    @Column(name = "dependencies", columnDefinition = "jsonb")
+    private String dependencies;
 
     @Column(nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
-    private RoleStatus status;
+    private SkillStatus status;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -39,7 +42,7 @@ public class Role {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
         if (status == null) {
-            status = RoleStatus.DRAFT;
+            status = SkillStatus.DRAFT;
         }
     }
 
@@ -48,25 +51,25 @@ public class Role {
         updatedAt = LocalDateTime.now();
     }
 
-    public Role() {}
+    public Skill() {}
 
-    public Role(String name, String displayName, String description) {
+    public Skill(String name, String displayName, String description) {
         this.name = name;
         this.displayName = displayName;
         this.description = description;
-        this.status = RoleStatus.DRAFT;
+        this.status = SkillStatus.DRAFT;
     }
 
     public void activate() {
-        this.status = RoleStatus.ACTIVE;
+        this.status = SkillStatus.ACTIVE;
     }
 
     public void deprecate() {
-        this.status = RoleStatus.DEPRECATED;
+        this.status = SkillStatus.DEPRECATED;
     }
 
     public void disable() {
-        this.status = RoleStatus.DISABLED;
+        this.status = SkillStatus.DISABLED;
     }
 
     public UUID getId() { return id; }
@@ -84,8 +87,11 @@ public class Role {
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
 
-    public RoleStatus getStatus() { return status; }
-    public void setStatus(RoleStatus status) { this.status = status; }
+    public String getDependencies() { return dependencies; }
+    public void setDependencies(String dependencies) { this.dependencies = dependencies; }
+
+    public SkillStatus getStatus() { return status; }
+    public void setStatus(SkillStatus status) { this.status = status; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }

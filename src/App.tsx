@@ -44,6 +44,9 @@ import {
   Circle,
   Clock,
   ArrowRight,
+  FileText,
+  UserCog,
+  Award,
 } from 'lucide-react';
 import { Button } from './components/ui/Button';
 import { Input } from './components/ui/Input';
@@ -315,6 +318,9 @@ function App() {
     { key: 'dashboard', icon: <LayoutDashboard className="h-5 w-5" /> },
     { key: 'connectors', icon: <Plug className="h-5 w-5" /> },
     { key: 'tools', icon: <Wrench className="h-5 w-5" /> },
+    { key: 'prompts', icon: <FileText className="h-5 w-5" /> },
+    { key: 'roles', icon: <UserCog className="h-5 w-5" /> },
+    { key: 'skills', icon: <Award className="h-5 w-5" /> },
     { key: 'agents', icon: <Bot className="h-5 w-5" /> },
     { key: 'team', icon: <Users className="h-5 w-5" /> },
     { key: 'tasks', icon: <ListTodo className="h-5 w-5" /> },
@@ -325,6 +331,9 @@ function App() {
     switch (currentPage) {
       case 'connectors': return 'مدیریت کانکتورها';
       case 'tools': return 'مدیریت ابزارها';
+      case 'prompts': return 'مدیریت پرامپت‌ها';
+      case 'roles': return 'مدیریت نقش‌ها';
+      case 'skills': return 'مدیریت مهارت‌ها';
       case 'agents': return 'مدیریت ایجنت‌ها';
       case 'team': return 'تیم ایجنت پروژه';
       case 'tasks': return 'مدیریت وظایف';
@@ -373,6 +382,9 @@ function App() {
           <div className="mx-auto max-w-7xl">
             {currentPage === 'connectors' && <ConnectorsPage connectors={mockConnectors} searchQuery={searchQuery} onSearchChange={setSearchQuery} />}
             {currentPage === 'tools' && <ToolsPage tools={mockTools} searchQuery={searchQuery} onSearchChange={setSearchQuery} />}
+            {currentPage === 'prompts' && <PromptsPage />}
+            {currentPage === 'roles' && <RolesPage />}
+            {currentPage === 'skills' && <SkillsPage />}
             {currentPage === 'agents' && <AgentsPage agents={mockAgents} searchQuery={searchQuery} onSearchChange={setSearchQuery} />}
             {currentPage === 'team' && <TeamPage agents={mockAgents} />}
             {currentPage === 'tasks' && <TasksPage tasks={mockTasks} searchQuery={searchQuery} onSearchChange={setSearchQuery} />}
@@ -728,6 +740,351 @@ function ConnectorsPage({ connectors, searchQuery, onSearchChange }: any) {
   );
 }
 
+// Prompts Page
+function PromptsPage() {
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const mockPrompts = [
+    { id: '1', name: 'backend-development', displayName: 'پرامپت توسعه بک‌اند', description: 'پرامپت برای وظایف پیاده‌سازی بک‌اند', scope: 'PLATFORM', status: 'ACTIVE', version: 'v1.2.0', variables: ['task', 'role', 'skills', 'knowledge'] },
+    { id: '2', name: 'code-review', displayName: 'پرامپت بازبینی کد', description: 'پرامپت برای بازبینی و بررسی کیفیت کد', scope: 'PLATFORM', status: 'ACTIVE', version: 'v1.0.0', variables: ['code', 'standards', 'feedback'] },
+    { id: '3', name: 'architecture-analysis', displayName: 'پرامپت تحلیل معماری', description: 'پرامپت برای تحلیل و طراحی معماری سیستم', scope: 'PLATFORM', status: 'DRAFT', version: 'v0.5.0', variables: ['system', 'requirements', 'constraints'] },
+    { id: '4', name: 'test-generation', displayName: 'پرامپت تولید تست', description: 'پرامپت برای تولید تست‌های واحد و یکپارچگی', scope: 'PLATFORM', status: 'ACTIVE', version: 'v1.1.0', variables: ['code', 'framework', 'coverage'] },
+  ];
+
+  const filtered = mockPrompts.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.displayName.toLowerCase().includes(searchQuery.toLowerCase()));
+
+  return (
+    <>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">مدیریت پرامپت‌ها</h2>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{filtered.length} پرامپت تعریف شده</p>
+        </div>
+        <Button variant="primary" onClick={() => setShowCreateModal(true)}>
+          <Plus className="h-4 w-4" />
+          ایجاد پرامپت جدید
+        </Button>
+      </div>
+
+      <div className="mb-6">
+        <div className="relative">
+          <Search className="absolute end-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+          <Input placeholder="جستجوی پرامپت..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="ps-3 pe-10" />
+        </div>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {filtered.map((prompt) => (
+          <div key={prompt.id} className="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-900">
+            <div className="mb-4 flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400">
+                  <FileText className="h-6 w-6" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-slate-900 dark:text-slate-100">{prompt.displayName}</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{prompt.name} • {prompt.version}</p>
+                </div>
+              </div>
+              <button className="rounded-lg p-1 text-slate-400 opacity-0 transition-opacity hover:bg-slate-100 group-hover:opacity-100 dark:hover:bg-slate-800">
+                <MoreHorizontal className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="mb-3 flex items-center gap-2">
+              <Badge variant={prompt.status === 'ACTIVE' ? 'success' : 'warning'}>
+                {prompt.status === 'ACTIVE' ? 'فعال' : 'پیش‌نویس'}
+              </Badge>
+              <Badge variant="muted">{prompt.scope}</Badge>
+            </div>
+
+            <p className="mb-4 text-sm text-slate-600 dark:text-slate-400 line-clamp-2">{prompt.description}</p>
+
+            <div className="mb-4">
+              <p className="mb-1.5 text-xs font-medium text-slate-600 dark:text-slate-400">متغیرها</p>
+              <div className="flex flex-wrap gap-1.5">
+                {prompt.variables.map((v, idx) => (
+                  <span key={idx} className="rounded-md bg-slate-100 px-2 py-0.5 text-xs text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                    {`{{${v}}}`}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-800">
+              <span className="text-xs text-slate-400 dark:text-slate-500">نسخه: {prompt.version}</span>
+              <div className="flex items-center gap-2">
+                <button className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-teal-600 dark:hover:bg-slate-800 dark:hover:text-teal-400">
+                  <Eye className="h-4 w-4" />
+                </button>
+                <button className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-teal-600 dark:hover:bg-slate-800 dark:hover:text-teal-400">
+                  <Edit className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <Modal isOpen={showCreateModal} onClose={() => setShowCreateModal(false)} title="ایجاد پرامپت جدید" size="xl"
+        footer={<><Button variant="outline" onClick={() => setShowCreateModal(false)}>انصراف</Button><Button variant="primary">ایجاد پرامپت</Button></>}>
+        <div className="space-y-4">
+          <Input label="نام" placeholder="backend-development" />
+          <Input label="نام نمایشی" placeholder="پرامپت توسعه بک‌اند" />
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">توضیحات</label>
+            <textarea rows={2} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100" />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">Scope</label>
+            <select className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100">
+              <option>PLATFORM</option>
+              <option>PROJECT</option>
+              <option>WORKFLOW</option>
+            </select>
+          </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">Template</label>
+            <textarea rows={8} placeholder="You are an AI software engineer.&#10;&#10;Role:&#10;{{role}}&#10;&#10;Task:&#10;{{task}}" className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100" />
+          </div>
+          <Input label="متغیرها (JSON)" placeholder='["task", "role", "skills"]' />
+        </div>
+      </Modal>
+    </>
+  );
+}
+
+// Roles Page
+function RolesPage() {
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const mockRoles = [
+    { id: '1', name: 'architect', displayName: 'معمار', description: 'تحلیل و طراحی معماری سیستم', category: 'Engineering', status: 'ACTIVE', version: 'v1.1.0', requiredSkills: ['system-design', 'architecture'] },
+    { id: '2', name: 'backend-developer', displayName: 'توسعه‌دهنده بک‌اند', description: 'پیاده‌سازی سرویس‌ها و APIها', category: 'Engineering', status: 'ACTIVE', version: 'v2.0.0', requiredSkills: ['java', 'spring-boot'] },
+    { id: '3', name: 'frontend-developer', displayName: 'توسعه‌دهنده فرانت‌اند', description: 'پیاده‌سازی UI و تجربه کاربری', category: 'Engineering', status: 'ACTIVE', version: 'v1.3.0', requiredSkills: ['react', 'typescript'] },
+    { id: '4', name: 'code-reviewer', displayName: 'بازبین کد', description: 'بررسی کیفیت کد و استانداردها', category: 'Quality', status: 'ACTIVE', version: 'v1.4.0', requiredSkills: ['code-analysis', 'best-practices'] },
+    { id: '5', name: 'qa-engineer', displayName: 'مهندس تست', description: 'نوشتن و اجرای تست‌ها', category: 'Quality', status: 'ACTIVE', version: 'v1.0.0', requiredSkills: ['testing', 'automation'] },
+    { id: '6', name: 'security-reviewer', displayName: 'بازبین امنیت', description: 'بررسی امنیتی کد و معماری', category: 'Security', status: 'DRAFT', version: 'v0.8.0', requiredSkills: ['security', 'vulnerability'] },
+  ];
+
+  const filtered = mockRoles.filter(r => r.name.toLowerCase().includes(searchQuery.toLowerCase()) || r.displayName.toLowerCase().includes(searchQuery.toLowerCase()));
+
+  return (
+    <>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">مدیریت نقش‌ها</h2>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{filtered.length} نقش تعریف شده</p>
+        </div>
+        <Button variant="primary" onClick={() => setShowCreateModal(true)}>
+          <Plus className="h-4 w-4" />
+          ایجاد نقش جدید
+        </Button>
+      </div>
+
+      <div className="mb-6">
+        <div className="relative">
+          <Search className="absolute end-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+          <Input placeholder="جستجوی نقش..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="ps-3 pe-10" />
+        </div>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {filtered.map((role) => (
+          <div key={role.id} className="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-900">
+            <div className="mb-4 flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-cyan-50 text-cyan-600 dark:bg-cyan-900/20 dark:text-cyan-400">
+                  <UserCog className="h-6 w-6" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-slate-900 dark:text-slate-100">{role.displayName}</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{role.name} • {role.version}</p>
+                </div>
+              </div>
+              <button className="rounded-lg p-1 text-slate-400 opacity-0 transition-opacity hover:bg-slate-100 group-hover:opacity-100 dark:hover:bg-slate-800">
+                <MoreHorizontal className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="mb-3 flex items-center gap-2">
+              <Badge variant={role.status === 'ACTIVE' ? 'success' : 'warning'}>
+                {role.status === 'ACTIVE' ? 'فعال' : 'پیش‌نویس'}
+              </Badge>
+              <Badge variant="muted">{role.category}</Badge>
+            </div>
+
+            <p className="mb-4 text-sm text-slate-600 dark:text-slate-400 line-clamp-2">{role.description}</p>
+
+            <div className="mb-4">
+              <p className="mb-1.5 text-xs font-medium text-slate-600 dark:text-slate-400">مهارت‌های مورد نیاز</p>
+              <div className="flex flex-wrap gap-1.5">
+                {role.requiredSkills.map((s, idx) => (
+                  <span key={idx} className="rounded-md bg-cyan-50 px-2 py-0.5 text-xs text-cyan-700 dark:bg-cyan-900/20 dark:text-cyan-400">
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-800">
+              <span className="text-xs text-slate-400 dark:text-slate-500">نسخه: {role.version}</span>
+              <div className="flex items-center gap-2">
+                <button className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-teal-600 dark:hover:bg-slate-800 dark:hover:text-teal-400">
+                  <Eye className="h-4 w-4" />
+                </button>
+                <button className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-teal-600 dark:hover:bg-slate-800 dark:hover:text-teal-400">
+                  <Edit className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <Modal isOpen={showCreateModal} onClose={() => setShowCreateModal(false)} title="ایجاد نقش جدید" size="xl"
+        footer={<><Button variant="outline" onClick={() => setShowCreateModal(false)}>انصراف</Button><Button variant="primary">ایجاد نقش</Button></>}>
+        <div className="space-y-4">
+          <Input label="نام" placeholder="backend-developer" />
+          <Input label="نام نمایشی" placeholder="توسعه‌دهنده بک‌اند" />
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">توضیحات</label>
+            <textarea rows={2} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100" />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">دسته‌بندی</label>
+            <select className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100">
+              <option>Engineering</option>
+              <option>Quality</option>
+              <option>Security</option>
+              <option>Operations</option>
+            </select>
+          </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">مسئولیت‌ها (JSON)</label>
+            <textarea rows={3} placeholder='["implement backend features", "modify APIs"]' className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100" />
+          </div>
+          <Input label="مهارت‌های مورد نیاز (JSON)" placeholder='["java", "spring-boot"]' />
+          <Input label="مهارت‌های ترجیحی (JSON)" placeholder='["rest-api", "database"]' />
+        </div>
+      </Modal>
+    </>
+  );
+}
+
+// Skills Page
+function SkillsPage() {
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const mockSkills = [
+    { id: '1', name: 'java', displayName: 'Java', description: 'تسلط بر زبان برنامه‌نویسی Java', category: 'Programming Language', status: 'ACTIVE', version: 'v2.0.0' },
+    { id: '2', name: 'spring-boot', displayName: 'Spring Boot', description: 'توسعه اپلیکیشن با Spring Boot', category: 'Framework', status: 'ACTIVE', version: 'v1.5.0' },
+    { id: '3', name: 'react', displayName: 'React', description: 'توسعه UI با React', category: 'Framework', status: 'ACTIVE', version: 'v1.3.0' },
+    { id: '4', name: 'typescript', displayName: 'TypeScript', description: 'برنامه‌نویسی با TypeScript', category: 'Programming Language', status: 'ACTIVE', version: 'v1.2.0' },
+    { id: '5', name: 'postgresql', displayName: 'PostgreSQL', description: 'کار با دیتابیس PostgreSQL', category: 'Database', status: 'ACTIVE', version: 'v1.0.0' },
+    { id: '6', name: 'docker', displayName: 'Docker', description: 'کانتینرسازی با Docker', category: 'DevOps', status: 'ACTIVE', version: 'v1.1.0' },
+    { id: '7', name: 'testing', displayName: 'تست‌نویسی', description: 'نوشتن تست‌های واحد و یکپارچگی', category: 'Quality', status: 'ACTIVE', version: 'v1.0.0' },
+    { id: '8', name: 'system-design', displayName: 'طراحی سیستم', description: 'طراحی معماری سیستم‌های مقیاس‌پذیر', category: 'Architecture', status: 'ACTIVE', version: 'v1.2.0' },
+  ];
+
+  const filtered = mockSkills.filter(s => s.name.toLowerCase().includes(searchQuery.toLowerCase()) || s.displayName.toLowerCase().includes(searchQuery.toLowerCase()));
+
+  return (
+    <>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">مدیریت مهارت‌ها</h2>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{filtered.length} مهارت تعریف شده</p>
+        </div>
+        <Button variant="primary" onClick={() => setShowCreateModal(true)}>
+          <Plus className="h-4 w-4" />
+          ایجاد مهارت جدید
+        </Button>
+      </div>
+
+      <div className="mb-6">
+        <div className="relative">
+          <Search className="absolute end-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+          <Input placeholder="جستجوی مهارت..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="ps-3 pe-10" />
+        </div>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {filtered.map((skill) => (
+          <div key={skill.id} className="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-900">
+            <div className="mb-4 flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400">
+                  <Award className="h-6 w-6" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-slate-900 dark:text-slate-100">{skill.displayName}</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{skill.name}</p>
+                </div>
+              </div>
+              <button className="rounded-lg p-1 text-slate-400 opacity-0 transition-opacity hover:bg-slate-100 group-hover:opacity-100 dark:hover:bg-slate-800">
+                <MoreHorizontal className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="mb-3 flex items-center gap-2">
+              <Badge variant={skill.status === 'ACTIVE' ? 'success' : 'warning'}>
+                {skill.status === 'ACTIVE' ? 'فعال' : 'پیش‌نویس'}
+              </Badge>
+              <Badge variant="muted">{skill.category}</Badge>
+            </div>
+
+            <p className="mb-4 text-sm text-slate-600 dark:text-slate-400 line-clamp-2">{skill.description}</p>
+
+            <div className="flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-800">
+              <span className="text-xs text-slate-400 dark:text-slate-500">نسخه: {skill.version}</span>
+              <div className="flex items-center gap-2">
+                <button className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-teal-600 dark:hover:bg-slate-800 dark:hover:text-teal-400">
+                  <Eye className="h-4 w-4" />
+                </button>
+                <button className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-teal-600 dark:hover:bg-slate-800 dark:hover:text-teal-400">
+                  <Edit className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <Modal isOpen={showCreateModal} onClose={() => setShowCreateModal(false)} title="ایجاد مهارت جدید" size="lg"
+        footer={<><Button variant="outline" onClick={() => setShowCreateModal(false)}>انصراف</Button><Button variant="primary">ایجاد مهارت</Button></>}>
+        <div className="space-y-4">
+          <Input label="نام" placeholder="java" />
+          <Input label="نام نمایشی" placeholder="Java" />
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">توضیحات</label>
+            <textarea rows={2} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100" />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">دسته‌بندی</label>
+            <select className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100">
+              <option>Programming Language</option>
+              <option>Framework</option>
+              <option>Database</option>
+              <option>DevOps</option>
+              <option>Quality</option>
+              <option>Architecture</option>
+            </select>
+          </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">دستورالعمل‌ها</label>
+            <textarea rows={4} placeholder="دستورالعمل‌های مربوط به این مهارت..." className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100" />
+          </div>
+          <Input label="وابستگی‌ها (JSON)" placeholder='["programming-fundamentals"]' />
+        </div>
+      </Modal>
+    </>
+  );
+}
+
 // Tools Page (simplified)
 function ToolsPage({ tools, searchQuery, onSearchChange }: any) {
   return (
@@ -776,6 +1133,9 @@ function SidebarContent({ navItems, currentPage, onNavClick, t, onClose }: any) 
       dashboard: 'داشبورد',
       connectors: 'کانکتورها',
       tools: 'ابزارها',
+      prompts: 'پرامپت‌ها',
+      roles: 'نقش‌ها',
+      skills: 'مهارت‌ها',
       agents: 'ایجنت‌ها',
       team: 'تیم پروژه',
       tasks: 'وظایف',
