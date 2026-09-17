@@ -43,6 +43,15 @@ public class Agent {
     @Column(name = "execution_policies", columnDefinition = "jsonb")
     private String executionPolicies;
 
+    @Column(name = "agent_type", length = 50)
+    private String agentType;
+
+    @Column(name = "capabilities", columnDefinition = "jsonb")
+    private String capabilities;
+
+    @Column(name = "supported_roles", columnDefinition = "jsonb")
+    private String supportedRoles;
+
     @Column(nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
     private AgentStatus status;
@@ -120,6 +129,15 @@ public class Agent {
 
     public String getExecutionPolicies() { return executionPolicies; }
     public void setExecutionPolicies(String executionPolicies) { this.executionPolicies = executionPolicies; }
+
+    public String getAgentType() { return agentType; }
+    public void setAgentType(String agentType) { this.agentType = agentType; }
+
+    public String getCapabilities() { return capabilities; }
+    public void setCapabilities(String capabilities) { this.capabilities = capabilities; }
+
+    public String getSupportedRoles() { return supportedRoles; }
+    public void setSupportedRoles(String supportedRoles) { this.supportedRoles = supportedRoles; }
 
     public AgentStatus getStatus() { return status; }
     public void setStatus(AgentStatus status) { this.status = status; }

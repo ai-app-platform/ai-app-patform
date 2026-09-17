@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "roles")
-public class Role {
+@Table(name = "prompts")
+public class Prompt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -21,12 +21,16 @@ public class Role {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(length = 50)
-    private String category;
+    @Column(nullable = false, length = 20)
+    @Enumerated(EnumType.STRING)
+    private PromptScope scope;
 
     @Column(nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
-    private RoleStatus status;
+    private PromptStatus status;
+
+    @Column(name = "variables", columnDefinition = "jsonb")
+    private String variables;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -39,7 +43,10 @@ public class Role {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
         if (status == null) {
-            status = RoleStatus.DRAFT;
+            status = PromptStatus.DRAFT;
+        }
+        if (scope == null) {
+            scope = PromptScope.PLATFORM;
         }
     }
 
@@ -48,27 +55,36 @@ public class Role {
         updatedAt = LocalDateTime.now();
     }
 
-    public Role() {}
+    public Prompt() {}
 
-    public Role(String name, String displayName, String description) {
+    public Prompt(String name, String displayName, String description, PromptScope scope) {
         this.name = name;
         this.displayName = displayName;
         this.description = description;
-        this.status = RoleStatus.DRAFT;
+        this.scope = scope;
+        this.status = PromptStatus.DRAFT;
     }
 
     public void activate() {
-        this.status = RoleStatus.ACTIVE;
+        if (this.status == PromptStatus.DISABLED || this.status == PromptStatus.ARCHIVED) {
+            throw new IllegalStateException("Cannot activate a disabled or archived prompt");
+        }
+        this.status = PromptStatus.ACTIVE;
     }
 
     public void deprecate() {
-        this.status = RoleStatus.DEPRECATED;
+        this.status = PromptStatus.DEPRECATED;
     }
 
     public void disable() {
-        this.status = RoleStatus.DISABLED;
+        this.status = PromptStatus.DISABLED;
     }
 
+    public void archive() {
+        this.status = PromptStatus.ARCHIVED;
+    }
+
+    // Getters and Setters
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
 
@@ -81,11 +97,14 @@ public class Role {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public PromptScope getScope() { return scope; }
+    public void setScope(PromptScope scope) { this.scope = scope; }
 
-    public RoleStatus getStatus() { return status; }
-    public void setStatus(RoleStatus status) { this.status = status; }
+    public PromptStatus getStatus() { return status; }
+    public void setStatus(PromptStatus status) { this.status = status; }
+
+    public String getVariables() { return variables; }
+    public void setVariables(String variables) { this.variables = variables; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }

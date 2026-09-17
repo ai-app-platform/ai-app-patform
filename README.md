@@ -100,4 +100,22 @@ mvn spring-boot:run
 | POST | /api/v1/projects/{id}/tasks/{taskId}/complete | تکمیل وظیفه |
 | POST | /api/v1/projects/{id}/tasks/{taskId}/fail | شکست وظیفه |
 | DELETE | /api/v1/projects/{id}/tasks/{taskId} | حذف وظیفه |
+| GET | /api/v1/prompts | لیست پرامپت‌ها |
+| POST | /api/v1/prompts | ایجاد پرامپت |
+| GET | /api/v1/prompts/{id} | جزئیات پرامپت |
+| POST | /api/v1/prompts/{id}/activate | فعال‌سازی پرامپت |
+| POST | /api/v1/prompts/{id}/deprecate | منسوخ کردن پرامپت |
+| DELETE | /api/v1/prompts/{id} | حذف پرامپت |
+| GET | /api/v1/roles | لیست نقش‌ها |
+| POST | /api/v1/roles | ایجاد نقش |
+| GET | /api/v1/roles/{id} | جزئیات نقش |
+| POST | /api/v1/roles/{id}/activate | فعال‌سازی نقش |
+| POST | /api/v1/roles/{id}/deprecate | منسوخ کردن نقش |
+| DELETE | /api/v1/roles/{id} | حذف نقش |
+| GET | /api/v1/skills | لیست مهارت‌ها |
+| POST | /api/v1/skills | ایجاد مهارت |
+| GET | /api/v1/skills/{id} | جزئیات مهارت |
+| POST | /api/v1/skills/{id}/activate | فعال‌سازی مهارت |
+| POST | /api/v1/skills/{id}/deprecate | منسوخ کردن مهارت |
+| DELETE | /api/v1/skills/{id} | حذف مهارت |
 | GET | /api/v1/health | وضعیت سرویس |
